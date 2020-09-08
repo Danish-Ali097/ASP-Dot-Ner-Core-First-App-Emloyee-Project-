@@ -1,0 +1,29 @@
+﻿@model HomeDetailsViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    var photoPath = "~/Images/" + (Model.employee.PhotoPath ?? "noimage.jpg");
+}
+
+<h1>@Model.pageTitle</h1>
+
+<div class="card mx-auto" style="width: 20rem;">
+    <div class="card-header">
+        <h5 class="card-title">
+            @Model.employee.Name
+        </h5>
+    </div>
+    <img class="card-img-top" src=@photoPath asp-append-version="true" />
+    <div class="card-body text-center">
+        <h5 class="card-text">Employee ID: @Model.employee.Id</h5>
+        <h5 class="card-text">Email: @Model.employee.Email</h5>
+        <h5 class="card-text">Department: @Model.employee.Department</h5>
+    </div>
+    <div class="card-footer text-center">
+        <div class="btn-group">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back</a>
+            <a asp-action="Edit" asp-controller="Home" asp-route-id="@Model.employee.Id" class="btn btn-primary">Edit</a>
+            <a href="#" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+</div>
