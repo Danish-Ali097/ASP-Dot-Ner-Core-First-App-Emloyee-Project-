@@ -85,7 +85,7 @@ namespace ASP_Dot_Ner_Core_First_App__Emloyee_Project_.Controllers
                 return View(model);
             }
 
-            result = await userManager.AddClaimsAsync(user, model.Claims.Where(c => c.IsSelected).Select(x => new Claim(x.ClaimType, x.ClaimType)));
+            result = await userManager.AddClaimsAsync(user, model.Claims.Where(c => c.IsSelected).Select(x => new Claim(x.ClaimType, "true")));
             if (!result.Succeeded)
             {
                 ModelState.AddModelError(string.Empty, "cannot add selected claims to user");
@@ -95,6 +95,7 @@ namespace ASP_Dot_Ner_Core_First_App__Emloyee_Project_.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "EditRolePolicy")]
         public async Task<IActionResult> ManageUserRoles(string userId)
         {
             ViewBag.userId = userId;
@@ -130,6 +131,7 @@ namespace ASP_Dot_Ner_Core_First_App__Emloyee_Project_.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "EditRolePolicy")]
         public async Task<IActionResult> ManageUserRoles(List<UserRolesViewModel> model,string userId)
         {
             ViewBag.userId = userId;
@@ -330,7 +332,6 @@ namespace ASP_Dot_Ner_Core_First_App__Emloyee_Project_.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "EditRolePolicy")]
         public async Task<IActionResult> EditRole(string id)
         {
             var role = await roleManager.FindByIdAsync(id);
@@ -357,7 +358,6 @@ namespace ASP_Dot_Ner_Core_First_App__Emloyee_Project_.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "EditRolePolicy")]
         public async Task<IActionResult> EditRole(EditRoleViewModel model)
         {
             if (ModelState.IsValid)
